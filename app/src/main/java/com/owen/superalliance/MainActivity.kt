@@ -4,34 +4,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
 import com.owen.superalliance.ui.theme.SuperallianceTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Avoid relying on lifecycle-viewmodel-compose; create VM the old-school way.
+        val scoutingViewModel = ViewModelProvider(this)[ScoutingViewModel::class.java]
+
         setContent {
             SuperallianceTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    RotaryDialCounter(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                ScoutingApp(viewModel = scoutingViewModel)
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RotaryDialPreview() {
-    SuperallianceTheme {
-        RotaryDialCounter()
     }
 }
